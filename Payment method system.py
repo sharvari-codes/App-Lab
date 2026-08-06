@@ -15,6 +15,7 @@ class CreditCardPayment(PaymentStrategy):
         self.card_number = card_number
 
     def pay(self, amount):
+        print("\nPayment Successful!")
         print(f"Paid ₹{amount} using Credit Card.")
         print(f"Card Number: {self.card_number}")
 
@@ -26,6 +27,7 @@ class PayPalPayment(PaymentStrategy):
         self.email = email
 
     def pay(self, amount):
+        print("\nPayment Successful!")
         print(f"Paid ₹{amount} using PayPal.")
         print(f"PayPal Account: {self.email}")
 
@@ -37,6 +39,7 @@ class UPIPayment(PaymentStrategy):
         self.upi_id = upi_id
 
     def pay(self, amount):
+        print("\nPayment Successful!")
         print(f"Paid ₹{amount} using UPI.")
         print(f"UPI ID: {self.upi_id}")
 
@@ -57,23 +60,43 @@ class PaymentProcessor:
             self.payment_strategy.pay(amount)
 
 
-# Driver Code
-if __name__ == "__main__":
+# Main Program
 
-    processor = PaymentProcessor()
+processor = PaymentProcessor()
 
-    # Credit Card Payment
-    processor.set_payment_strategy(CreditCardPayment("1234-5678-9012-3456"))
-    processor.process_payment(2500)
+while True:
 
-    print()
+    print("\n===== Payment Processing System =====")
+    print("1. Credit Card")
+    print("2. PayPal")
+    print("3. UPI")
+    print("4. Exit")
 
-    # PayPal Payment
-    processor.set_payment_strategy(PayPalPayment("user@example.com"))
-    processor.process_payment(1800)
+    choice = int(input("Enter your choice: "))
 
-    print()
+    if choice == 4:
+        print("Thank You!")
+        break
 
-    # UPI Payment
-    processor.set_payment_strategy(UPIPayment("john@upi"))
-    processor.process_payment(750)
+    amount = float(input("Enter Amount: ₹"))
+
+    if choice == 1:
+        card = input("Enter Credit Card Number: ")
+        processor.set_payment_strategy(CreditCardPayment(card))
+
+    elif choice == 2:
+        email = input("Enter PayPal Email: ")
+        processor.set_payment_strategy(PayPalPayment(email))
+
+    elif choice == 3:
+        upi = input("Enter UPI ID: ")
+        processor.set_payment_strategy(UPIPayment(upi))
+
+    else:
+        print("Invalid Choice!")
+        continue
+
+    processor.process_payment(amount)
+
+
+ 
